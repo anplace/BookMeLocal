@@ -30,3 +30,22 @@ A website that allows users to book appointments with local businesses. The busi
     - A text box that allows you to add notes to your booking
 - When the booking is completed then it is added to the companies main calendar
 ### The above information in the To Do List is the minimum to turn in for Project 2
+
+# Roles
+
+## Luis
+- Bulk of the Java Script
+- Central contact for all code
+
+## Edgar
+- Visuals
+- Butl of the HTML and CSS
+
+## Alex
+- Project manager
+- Presentation
+- Elevator Pitch
+- Spot coding
+
+## Caleb
+- 
