@@ -1,4 +1,67 @@
-.container {
+@font-face {
+    font-family: 'Gara';
+    src: url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+}
+
+body {
+    display: grid;
+    place-items: center;
+    margin: 0;
+    height: 100vh;
+    background: #221d2d;
+    color: #fdfcfd;
+    font-family: 'Gara', serif;
+}
+.card {
+    display: flex;
+    align-items: center;
+    width: 75vw;
+    max-width: 650px;
+    padding: 
+    50px 30px 50px 20px;
+    background-color: #121017;
+    border-radius: 24px;
+    justify-content: center;
+    text-decoration: none;
+    color: #fdfcfd;
+    animation-name: slideIn;
+    animation-duration: 2s;
+
+}
+.card-h1{
+    font-size: 100px;
+    font-weight: 600;
+    justify-content: center;
+    
+}
+.card p {
+    font-size: 20px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+.card a {
+    text-decoration: none;
+    color: #fdfcfd;
+    justify-content: center;
+}
+.card a:hover {
+    color: #f9f871;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+
+/* .container {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
@@ -138,4 +201,4 @@
 
 .booking-actions {
     margin-top: 10px;
-}
+} */
