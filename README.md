@@ -49,3 +49,4 @@ A website that allows users to book appointments with local businesses. The busi
 
 ## Caleb
 - 
+### The above information in the To Do List is the minimum to turn in for Project 2
