@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 
 <body>
     {{> header }}
    
-
+{{> login }}
     {{!-- <div class="container">
         {{#if messages.success_msg}}
         <div class="alert alert-success">{{messages.success_msg}}</div>
@@ -28,7 +29,7 @@
         {{body}}
     </div> --}}
 
-    {{!-- {{> footer }} --}}
+    {{> footer }}
 </body>
 
 </html>

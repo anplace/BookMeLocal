@@ -4,7 +4,7 @@
 }
 
 body {
-    display: grid;
+    display: flex;
     place-items: center;
     margin: 0;
     height: 100vh;
@@ -29,8 +29,8 @@ body {
 
 }
 .card-h1{
-    font-size: 100px;
-    font-weight: 600;
+    font-size: 70px;
+    font-weight: 550;
     justify-content: center;
     
 }
@@ -40,6 +40,9 @@ body {
     line-height: 1.6;
 }
 .card a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-decoration: none;
     color: #fdfcfd;
     justify-content: center;
