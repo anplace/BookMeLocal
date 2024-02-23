@@ -52,29 +52,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Session Middleware setup with Sequelize Store
-const sessionStore = new SequelizeStore({ db: sequelize });
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true },
-  })
-);
+// const sessionStore = new SequelizeStore({ db: sequelize });
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     store: sessionStore,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true },
+//   })
+// );
 
-app.use(flash()); // Use connect-flash middleware
+// app.use(flash()); // Use connect-flash middleware
 
 // Make flash messages available to all templates
-app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.success_msg = req.flash('success_msg');
+//   res.locals.error_msg = req.flash('error_msg');
+//   res.locals.error = req.flash('error');
+//   next();
+// });
 
 // Sync the session store
-sessionStore.sync();
+// sessionStore.sync();
 
 // Static folder setup
 app.use(express.static('public'));
@@ -91,6 +91,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-sequelize.sync({ force: false }).then(() => {
+// sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-});
+// });
