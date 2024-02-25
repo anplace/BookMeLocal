@@ -85,6 +85,11 @@ require('./routes/index')(app);
 // 404 Not Found Middleware
 app.use((req, res, next) => res.status(404).send('404 Not Found'));
 
+// add login route here
+app.get('/login', function(req, res){      // added login route
+  res.render('login');
+});
+
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
