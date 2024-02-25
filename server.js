@@ -1,8 +1,8 @@
 const express = require('express');
 const sequelize = require('./config/config');
 const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const exphbs = require('express-handlebars');
+// const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const extra = require('express-handlebars');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
@@ -29,8 +29,8 @@ const apiLimiter = rateLimit({
 // Apply rate limiting to all requests
 app.use('/api/', apiLimiter);
 
-// Setup Handlebars with custom helpers
-const hbs = exphbs.create({
+// Setup Handlebars with custom helpers // ********** Troubleshooting handlebars
+const hbs = extra.create({
   helpers: {
     formatDate: function (date, format) {
       return moment(date).format(format);
@@ -41,6 +41,9 @@ const hbs = exphbs.create({
   },
 });
 
+// ******************* Troubleshooting handlebars
+
+// app.engine('handlebars', hbs.engine);
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
@@ -82,13 +85,13 @@ app.use(express.static('public'));
 // Routes setup
 require('./routes/index')(app);
 
-// 404 Not Found Middleware
-app.use((req, res, next) => res.status(404).send('404 Not Found'));
-
 // add login route here
 app.get('/login', function(req, res){      // added login route
   res.render('login');
 });
+// 404 Not Found Middleware
+app.use((req, res, next) => res.status(404).send('404 Not Found'));
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
