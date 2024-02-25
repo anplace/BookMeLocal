@@ -16,6 +16,10 @@ module.exports = (app) => {
     app.use('/dashboard', dashboardRoutes);
     // Use any additional routes
 
+    app.get('/login', function(req, res) { // added login route attempt**
+        res.render('login');
+    });
+
 
     app.get('/', (req, res) => {
         res.render('home');
