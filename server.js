@@ -1,20 +1,42 @@
-const express = require('express');
-const sequelize = require('./config/config');
+const express = require('express');// ****
 const session = require('express-session');
-// const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const extra = require('express-handlebars');
+// const sequelize = require('./config/config');
+const sequelize = require('sequelize');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const exphbs = require('express-handlebars'); //*** */
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const moment = require('moment');
-// const { sequelize } = require('./models');
+const { db } = require('./models');
+
+// Initialize Sequelize and session store
+const sequelizeInstance = new sequelize("database", "username", "password", {
+  dialect: "sqlite",
+  storage: "./session.sqlite",
+});
+const sessionStore = new SequelizeStore({ db: sequelizeInstance });
+
+const app = express();//** */
+
+// Session middleware setup with Sequelize Store
+app.use(
+  session({
+    secret: 'your-session-secret', // replace with your own session secret
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true },
+  })
+);
+
 
 // Load environment variables
 dotenv.config();
 
-const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 // Setup security headers with Helmet
@@ -30,7 +52,7 @@ const apiLimiter = rateLimit({
 app.use('/api/', apiLimiter);
 
 // Setup Handlebars with custom helpers // ********** Troubleshooting handlebars
-const hbs = extra.create({
+const hbs = exphbs.create({
   helpers: {
     formatDate: function (date, format) {
       return moment(date).format(format);
@@ -40,12 +62,15 @@ const hbs = extra.create({
       arg1 == arg2 ? options.fn(this) : options.inverse(this),
   },
 });
+const path = require('path');
 
 // ******************* Troubleshooting handlebars
 
 // app.engine('handlebars', hbs.engine);
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+// app.use(express.static(path.join(__dirname, 'public'))); //****** */
+// app.use(require('./routes/index'));// ********** Troubleshooting handlebars
 
 // Override method for supporting PUT and DELETE in forms
 app.use(methodOverride('_method'));
@@ -66,29 +91,38 @@ app.use(express.json());
 //   })
 // );
 
-// app.use(flash()); // Use connect-flash middleware
+app.use(flash()); // Use connect-flash middleware
 
 // Make flash messages available to all templates
-// app.use((req, res, next) => {
-//   res.locals.success_msg = req.flash('success_msg');
-//   res.locals.error_msg = req.flash('error_msg');
-//   res.locals.error = req.flash('error');
-//   next();
-// });
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
 
 // Sync the session store
-// sessionStore.sync();
+sessionStore.sync();
 
 // Static folder setup
 app.use(express.static('public'));
 
 // Routes setup
-require('./routes/index')(app);
+require('./routes/index')(app); //********* */`
 
 // add login route here
-app.get('/login', function(req, res){      // added login route
-  res.render('login');
-});
+// app.get('/views/layouts/login', function(_req, res){      // added login route ********
+//   res.render('login');
+// });
+// app.get('/register', function(req, res) { // added register route`
+//   res.render('register');
+// });
+// app.get('/dashboard', function(req, res) { // added dashboard route
+//   res.render('dashboard');
+// });
+// app.get('/logout', function(req, res) { // added logout route
+//   res.render('logout');
+// });
 // 404 Not Found Middleware
 app.use((req, res, next) => res.status(404).send('404 Not Found'));
 
@@ -100,5 +134,4 @@ app.use((err, req, res, next) => {
 });
 
 // sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-// });
+  app.listen(PORT, () => console.log('Server started on: http://localhost:' + PORT));
