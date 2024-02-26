@@ -19,6 +19,9 @@ module.exports = (app) => {
     app.get('/login', function(req, res) { // added login route attempt**
         res.render('login');
     });
+    app.get('/register', function(req, res) {
+        res.render('register');
+    });
 
 
     app.get('/', (req, res) => {
